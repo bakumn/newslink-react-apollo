@@ -18,12 +18,12 @@ class Login extends Component {
         <h4 className='mv3'>{this.state.login ? 'Login' : 'Sign Up'}</h4>
         <div className='flex flex-column'>
           {!this.state.login &&
-          <input
-            value={this.state.name}
-            onChange={(e) => this.setState({ name: e.target.value })}
-            type='text'
-            placeholder='Your name'
-          />}
+            <input
+              value={this.state.name}
+              onChange={(e) => this.setState({ name: e.target.value })}
+              type='text'
+              placeholder='Your name'
+            />}
           <input
             value={this.state.email}
             onChange={(e) => this.setState({ email: e.target.value })}
@@ -38,25 +38,28 @@ class Login extends Component {
           />
         </div>
         <div className='flex mt3'>
-          <div
+          <button
             className='pointer mr2 button'
             onClick={() => this._confirm()}
           >
-            {this.state.login ? 'login' : 'create account' }
-          </div>
-          <div
+            {this.state.login ? 'login' : 'create account'}
+          </button>
+
+          <button
             className='pointer button'
             onClick={() => this.setState({ login: !this.state.login })}
           >
             {this.state.login ? 'need to create an account?' : 'already have an account?'}
-          </div>
+          </button>
+
         </div>
       </div>
     )
   }
 
   _confirm = async () => {
-    const { name, email, password } = this.state
+    const { name, email, password } = this.state;
+
     if (this.state.login) {
       const result = await this.props.signinUserMutation({
         variables: {
@@ -86,7 +89,6 @@ class Login extends Component {
     localStorage.setItem(GC_USER_ID, id)
     localStorage.setItem(GC_AUTH_TOKEN, token)
   }
-
 }
 
 const CREATE_USER_MUTATION = gql`
@@ -130,6 +132,6 @@ mutation SigninUserMutation($email: String!, $password: String!) {
 `
 
 export default compose(
-graphql(CREATE_USER_MUTATION, { name: 'createUserMutation' }),
-graphql(SIGNIN_USER_MUTATION, { name: 'signinUserMutation' })
+  graphql(CREATE_USER_MUTATION, { name: 'createUserMutation' }),
+  graphql(SIGNIN_USER_MUTATION, { name: 'signinUserMutation' })
 )(Login)
